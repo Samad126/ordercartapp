@@ -1,0 +1,288 @@
+
+
+body {
+    --tw-bg-opacity: 1;
+    background-color: hsl(20 50% 98% / var(--tw-bg-opacity));
+    padding-bottom: 40px;
+}
+.flex{
+    display: flex;
+}
+.justifyCenter{
+    justify-content: center;
+}
+.justifyBetween{
+    justify-content: space-between;
+}
+.alignCenter{
+    align-items: center;
+}
+.flexCol{
+    flex-direction: column;
+}
+.txtOrange{
+    color: hsl(14 86% 42%);
+}
+.txtGray{
+    color: hsl(7 20% 60%);
+}
+.bgOrange{
+    background-color: hsl(14 86% 42%) !important;
+}
+.brOrange{
+    border-color: hsl(14 86% 42%) !important;
+}
+.bgGray{
+    background-color: hsl(7 20% 60%);
+}
+.bold{
+    font-weight: 600;
+}
+.boldest{
+    font-weight: 900;
+}
+#cards {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 50px;
+    margin: 15px 0 90px 0;
+}
+
+.card > div{
+    border: 2px solid transparent;
+    border-radius: 15px;
+}
+
+.container {
+    width: 90%;
+    max-width: 350px;
+    margin: auto;
+}
+
+.bgImage {
+    height: 200px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.bgImage>img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    height: 100%;
+    border-radius: 15px;
+}
+
+h1 {
+    margin-top: 15px;
+}
+h5 {
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    color: hsl(12 20% 44%);
+}
+h4{
+    margin-bottom: 10px;
+}
+h3 {
+    margin: 10px 0;
+}
+
+.addCartBtn,
+.controls {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35px;
+    border: 1px solid;
+    gap: 15px;
+    min-width: 144px;
+    border-color: hsl(12 20% 44%);
+    background-color: white;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.controls {
+    justify-content: space-between;
+    padding: 8px 10px;
+    border: none;
+    cursor: initial;
+}
+
+.controls>button {
+    border-radius: 50%;
+    font-size: 1.5em;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.controls>button:hover{
+    background-color: rgb(254 205 211 / 1);
+}
+
+.controls>p {
+    color: white;
+}
+#ordersDiv, #carbon{
+    margin: 20px 0;
+}
+.addCartBtn:hover {
+    --tw-text-opacity: 1;
+    color: hsl(14 86% 42%);
+    border-color: hsl(14 86% 42%);
+}
+#ordersDiv{
+    gap: 20px;
+}
+#ordersDiv > div, #finalOrders > div{
+    border-bottom: 1px solid hsl(7 20% 60%);
+    padding-bottom: 5px;
+}
+#ordersDiv button{
+    border: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid hsl(7 20% 60%);
+    border-radius: 50%;
+    background-color: transparent;
+}
+#ordersDiv p, #carbon{gap: 10px;}
+#orders{
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+}
+#orders > button, dialog > button{
+    width: 100%;
+    border: none;
+    color: white;
+    background-color: hsl(14 86% 42%);
+    font-weight: 600;
+    border-radius: 35px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+#orders > button:hover, dialog > button:hover{
+    background-color: hsl(14 86% 30% / 1);
+}
+#carbon, #finalOrders{
+    padding: 12px;
+    background-color: hsl(20 50% 98%);
+}
+#carbon > p {font-size: .7em;}
+#noitems{
+    text-align: center;
+}
+
+dialog{
+    max-width: 95%;
+    width: 400px;
+    padding: 30px;
+    gap: 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    margin: 0;
+    z-index: 10;
+}
+
+dialog > img{
+    width: fit-content;
+}
+
+#finalOrders{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 15px;
+}
+
+
+#finalOrders > div{
+    gap: 20px;
+}
+
+#finalOrders > div > div{gap: 10px;}
+
+#finalOrders > div img{
+    height: 32px;
+    border-radius: 5px;
+}
+
+#finalOrders > div h4{
+    font-size: .8em;
+}
+
+dialog::backdrop{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media only screen and (min-width:768px) and (max-width:992px) {
+    .container{
+        max-width: 800px;
+    }
+
+    #cards{
+        grid-template-columns: auto auto auto;
+        gap: 40px;
+    }
+}
+
+@media only screen and (min-width:992px) {
+    .container{
+        max-width: 900px;
+        margin-top: 100px;
+    }
+
+    .container > div{
+        display: flex;
+        gap: 30px;
+        align-items: start;
+        justify-content: space-between;
+    }
+    #cards{
+        grid-template-columns: auto auto auto;
+        gap: 25px;
+        width: 70%;
+    }
+    #orders{
+        width: 30%;
+    }
+}
+
+@media only screen and (min-width:1280px) {
+    .container{
+        max-width: 1200px;
+    }
+
+    .bgImage{
+        height: 250px;
+    }
+}
+
+@media only screen and (min-width:1530px) {
+    .container{
+        max-width: 1600px;
+    }
+
+    #cards{
+        width: 60%;
+        gap: 45px 35px;
+    }
+    #orders {width: 25%;}
+
+    .container > div{
+        gap: 0;
+    }
+}

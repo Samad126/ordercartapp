@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <dialog onclose="handleDialog('off')" class="flexCol">
+        <img src="images/icon-order-confirmed.svg" alt="">
+        <h2>Order Confirmed</h2>
+        <p>We hope you enjoy your food!</p>
+        <div class="bgGray" id="finalOrders">
+            <div class="flex alignCenter">
+                <img src="images/image-waffle-thumbnail.jpg" alt="">
+                <div>
+                    <h4>Vanilla Bean Crème Brûlée</h4>
+                    <p><span class="txtOrange">1x</span> @ <span class="txtGray">$7.00</span></p>
+                </div>
+                <p class="bold">$7.00</p>
+            </div>
+        </div>
+        <button onclick="handleDialog('off')">Submit new Order</button>
+    </dialog>
+    <div class="container">
+        <h1>Deserts</h1>
+        <div>
+            <div id="cards">
+                <div class="card">
+                    <div class="bgImage">
+                        <img src="images/image-baklava-desktop.jpg" alt="">
+                        <button class="addCartBtn"><img src="images/icon-add-to-cart.svg" alt="">Add to cart</button>
+                        <div class="controls bgOrange">
+                            <button><img src="images/icon-decrement-quantity.svg" alt=""></button>
+                            <p>1</p>
+                            <button><img src="images/icon-increment-quantity.svg" alt=""></button>
+                        </div>
+                    </div>
+                    <h5>Waffle</h5>
+                    <h3>Waffle with Berries</h3>
+                    <p class="txtOrange bold">$6.50</p>
+                </div>
+            </div>
+            <div id="orders">
+                <h2 class="txtOrange">Your Cart (0)</h2>
+                <div id="noitems">
+                    <img src="images/illustration-empty-cart.svg" alt="">
+                    <p>Your added items will appear here</p>
+                </div>
+                <div id="ordersDiv" class="flex flexCol">
+                    <div class="flex alignCenter justifyBetween">
+                        <div>
+                            <h4>Vanilla Panna Cotta</h4>
+                            <p class="flex"><span class="txtOrange">1x</span><span class="txtGray">@ $6.50</span> <span
+                                    class="txtGray bold">$13.00</span></p>
+                        </div>
+                        <button class="flex justifyCenter alignCenter"><img src="images/icon-remove-item.svg"
+                                alt=""></button>
+                    </div>
+                </div>
+                <p class="flex justifyBetween alignCenter">Order Total <span class="boldest">$6.50</span></p>
+                <div id="carbon" class="flex alignCenter">
+                    <img src="images/icon-carbon-neutral.svg" alt="">
+                    <p>This is a <b>carbon-neutral</b> delivery</p>
+                </div>
+                <button>Confirm Order</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const products = [
+            {
+                "image": {
+                    "thumbnail": "/images/image-waffle-thumbnail.jpg",
+                    "orginal": "/images/image-waffle-desktop.jpg"
+                },
+                "name": "Waffle with Berries",
+                "category": "Waffle",
+                "price": 6.50,
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-creme-brulee-thumbnail.jpg",
+                    "orginal": "/images/image-creme-brulee-desktop.jpg"
+                },
+                "name": "Vanilla Bean Crème Brûlée",
+                "category": "Crème Brûlée",
+                "price": 7.00
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-macaron-thumbnail.jpg",
+                    "orginal": "/images/image-macaron-desktop.jpg"
+                },
+                "name": "Macaron Mix of Five",
+                "category": "Macaron",
+                "price": 8.00
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-tiramisu-thumbnail.jpg",
+                    "orginal": "/images/image-tiramisu-desktop.jpg"
+                },
+                "name": "Classic Tiramisu",
+                "category": "Tiramisu",
+                "price": 5.50
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-baklava-thumbnail.jpg",
+                    "orginal": "/images/image-baklava-desktop.jpg"
+                },
+                "name": "Pistachio Baklava",
+                "category": "Baklava",
+                "price": 4.00
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-meringue-thumbnail.jpg",
+                    "orginal": "/images/image-meringue-desktop.jpg"
+                },
+                "name": "Lemon Meringue Pie",
+                "category": "Pie",
+                "price": 5.00
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-cake-thumbnail.jpg",
+                    "orginal": "/images/image-cake-desktop.jpg"
+                },
+                "name": "Red Velvet Cake",
+                "category": "Cake",
+                "price": 4.50
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-brownie-thumbnail.jpg",
+                    "orginal": "/images/image-brownie-desktop.jpg"
+                },
+                "name": "Salted Caramel Brownie",
+                "category": "Brownie",
+                "price": 4.50
+            },
+            {
+                "image": {
+                    "thumbnail": "/images/image-panna-cotta-thumbnail.jpg",
+                    "orginal": "/images/image-panna-cotta-desktop.jpg"
+                },
+                "name": "Vanilla Panna Cotta",
+                "category": "Panna Cotta",
+                "price": 6.50
+            }
+        ]
+        const cards = document.getElementById("cards");
+        const orders = document.getElementById("orders");
+        const finalOrders = document.getElementById("finalOrders");
+        const dialog = document.querySelector("dialog");
+
+        let ordersArr = [];
+
+        updateUi();
+
+        function updateUi() {
+            updateAllCarts();
+            updateOrders();
+            updateDialog();
+        }
+
+        function updateDialog() {
+            finalOrders.innerHTML = "";
+            let txt = "";
+            for (let i = 0; i < ordersArr.length; i++) {
+                let order = ordersArr[i];
+                txt +=
+                    `
+                    <div class="flex alignCenter justifyBetween">
+                        <div class="flex alignCenter">
+                            <img src="${order.images.thumbnail}" alt="">
+                            <div>
+                                <h4>${order.name}</h4>
+                                <p><span class="txtOrange">${order.count}x</span> @ <span class="txtGray">$${order.price}</span></p>
+                            </div>
+                        </div>
+                        <p class="bold">$${order.count * order.price}</p>
+                    </div>   
+                `
+            }
+            finalOrders.innerHTML = txt;
+        }
+
+        function updateAllCarts() {
+            cards.innerHTML = "";
+
+            let txt = "";
+            for (let i = 0; i < products.length; i++) {
+                let product = products[i];
+
+                txt +=
+                    `
+                    <div class="card">
+                        <div class="bgImage ${product.count != undefined && `brOrange`}">
+                            <img src="${product.image.orginal}"" alt="">
+                            ${product.count == undefined ? `<button onclick="handleProduct(${i},'add')" class="addCartBtn"><img src="images/icon-add-to-cart.svg" alt="">Add to cart</button>`
+                        :
+                        `
+                                    <div class="controls bgOrange">
+                                        <button class="flex justifyCenter alignCenter" onclick="handleProduct(${i}, 'decr')" ><img src="images/icon-decrement-quantity.svg" alt=""></button>
+                                        <p>${product.count}</p>
+                                        <button class="flex justifyCenter alignCenter" onclick="handleProduct(${i}, 'incr')" ><img src="images/icon-increment-quantity.svg" alt=""></button>
+                                    </div>
+                                `
+                    }
+                        </div>
+                        <h5>${product.category}</h5>
+                        <h3>${product.name}</h3>
+                        <p class="txtOrange bold">$${product.price}</p>
+                    </div>
+                `
+            };
+            cards.innerHTML = txt;
+        }
+
+        function handleProduct(i, type) {
+            let order;
+
+            if (products[i].count == undefined) {
+                order = {
+                    name: products[i].name,
+                    price: products[i].price,
+                    count: 1,
+                    images: products[i].image
+                };
+                ordersArr.push(order);
+                products[i].count = 1;
+            }
+            else {
+                let indexOrder;
+                for (let j = 0; j < ordersArr.length; j++) {
+                    if (products[i].name == ordersArr[j].name) {
+                        indexOrder = j;
+                        break;
+                    };
+                }
+                if (type == "incr") {
+                    ordersArr[indexOrder].count++;
+                    products[i].count++;
+                }
+                else if (ordersArr[indexOrder].count - 1 == 0) {
+                    ordersArr.splice(indexOrder, 1);
+                    delete products[i].count;
+                }
+                else {
+                    ordersArr[indexOrder].count--;
+                    products[i].count--;
+                }
+            }
+
+            console.log(ordersArr, products);
+            updateUi();
+        }
+
+        function handleOrderDelte(i) {
+            for (let j = 0; j < products.length; j++) {
+                if (products[j].name == ordersArr[i].name) {
+                    delete products[j].count;
+                    break;
+                };
+            }
+
+            ordersArr.splice(i, 1);
+            updateUi();
+        }
+
+        function handleReset() {
+            ordersArr = [];
+            for (let i = 0; i < products.length; i++) {
+                let product = products[i];
+                if (product.count != undefined) delete product.count;
+            }
+            updateUi();
+        }
+
+        function handleDialog(type) {
+            if (type == "on") {
+                dialog.showModal();
+                dialog.style.display = "flex"
+            }
+            else {
+                dialog.close();
+                dialog.style.display = "none";
+                handleReset();
+            }
+        }
+
+        function updateOrders() {
+            orders.innerHTML = "";
+
+            let txt = `<h2 class="txtOrange">Your Cart (${ordersArr.length})</h2>`;
+            if (ordersArr.length == 0) {
+                txt +=
+                    `
+                    <div id="noitems">
+                        <img src="images/illustration-empty-cart.svg" alt="">
+                        <p>Your added items will appear here</p>
+                    </div>
+                `;
+                orders.innerHTML = txt;
+                return;
+            }
+            else {
+                let total = 0;
+
+                for (let i = 0; i < ordersArr.length; i++) {
+                    total += ordersArr[i].count * ordersArr[i].price
+                }
+
+                txt += `<div id="ordersDiv" class="flex flexCol">`
+                for (let i = 0; i < ordersArr.length; i++) {
+                    let order = ordersArr[i];
+                    txt +=
+                        `
+                      <div class="flex alignCenter justifyBetween">
+                        <div>
+                            <h4>${order.name}</h4>
+                            <p class="flex"><span class="txtOrange">${order.count}x</span><span class="txtGray">@ $${order.price}</span> <span
+                                    class="txtGray bold">$${order.count * order.price}</span></p>
+                        </div>
+                        <button onclick="handleOrderDelte(${i})" class="flex justifyCenter alignCenter"><img src="images/icon-remove-item.svg"
+                                alt=""></button>
+                       </div>
+                    `
+                }
+                txt += '</div>';
+                txt +=
+                    `
+                        <p class="flex justifyBetween alignCenter">Order Total <span class="boldest">$${total}</span></p>
+                        <div id="carbon" class="flex alignCenter">
+                            <img src="images/icon-carbon-neutral.svg" alt="">
+                            <p>This is a <b>carbon-neutral</b> delivery</p>
+                        </div>
+                        <button onclick="handleDialog('on')">Confirm Order</button>
+                    `;
+                orders.innerHTML = txt;
+            }
+        }
+    </script>
+</body>
+
+</html>
